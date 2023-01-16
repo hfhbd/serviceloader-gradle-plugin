@@ -13,7 +13,7 @@ public class ServiceLoaderGradlePlugin : Plugin<Project> {
             serviceLoaders.convention(project.provider<Map<String, List<String>>> {
                 val map = mutableMapOf<String, List<String>>()
                 for (serviceLoader in serviceLoadersExtension) {
-                    map[serviceLoader.name] = serviceLoader.implementationClass.get()
+                    map[serviceLoader.name] = serviceLoader.implementationClasses.get()
                 }
                 map
             })
