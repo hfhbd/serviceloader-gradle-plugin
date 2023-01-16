@@ -7,5 +7,5 @@ import javax.inject.*
 public abstract class ServiceLoader @Inject constructor(private val name: String) : Named {
     override fun getName(): String = name
 
-    public abstract val implementationClass: ListProperty<String>
+    public abstract val implementationClasses: ListProperty<String>
 }
