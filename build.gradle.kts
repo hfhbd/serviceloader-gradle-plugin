@@ -54,7 +54,7 @@ publishing {
         pom {
             name.set("app.softwork ServiceLoader Gradle Plugin")
             description.set("A Gradle plugin to generate and validate service loader")
-            url.set("https://github.com/hfhbd/kotlinx-serialization-csv")
+            url.set("https://github.com/hfhbd/serviceloader-gradle-plugin")
             licenses {
                 license {
                     name.set("The Apache License, Version 2.0")
@@ -69,9 +69,9 @@ publishing {
                 }
             }
             scm {
-                connection.set("scm:git://github.com/hfhbd/kotlinx-serialization-csv.git")
-                developerConnection.set("scm:git://github.com/hfhbd/kotlinx-serialization-csv.git")
-                url.set("https://github.com/hfhbd/kotlinx-serialization-csv")
+                connection.set("https://github.com/hfhbd/serviceloader-gradle-plugin.git")
+                developerConnection.set("scm:git://github.com/hfhbd/serviceloader-gradle-plugin.git")
+                url.set("https://github.com/hfhbd/serviceloader-gradle-plugin")
             }
         }
     }
