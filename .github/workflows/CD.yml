@@ -1,0 +1,31 @@
+name: CD
+
+on:
+  release:
+    types: [ created ]
+
+concurrency:
+  group: "cd"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    environment: CD
+
+    steps:
+      - name: Set environment for version
+        run: long="${{ github.ref }}"; version=${long#"refs/tags/v"}; echo "version=${version}" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
+      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/gradle-build-action@v2
+      - name: Build with Gradle
+        run: ./gradlew build -Pversion=$version
+      - name: Publish
+        run: ./gradlew -Pversion=$version -Dorg.gradle.parallel=false -Dorg.gradle.unsafe.configuration-cache=false publish closeAndReleaseStagingRepository
+        env:
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONARTYPE_APIKEY }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONARTYPE_APITOKEN }}
