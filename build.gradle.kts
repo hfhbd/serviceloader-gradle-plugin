@@ -47,9 +47,6 @@ java {
 publishing {
     publications.configureEach {
         this as MavenPublication
-        artifact(tasks.javadoc)
-        artifact(tasks.kotlinSourcesJar)
-        artifact(tasks.jar)
 
         pom {
             name.set("app.softwork ServiceLoader Gradle Plugin")
