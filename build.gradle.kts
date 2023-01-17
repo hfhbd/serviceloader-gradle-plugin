@@ -15,6 +15,8 @@ dependencies {
 gradlePlugin.plugins.register("ServiceLoaderPlugin") {
     id = "app.softwork.serviceloader"
     implementationClass = "app.softwork.serviceloader.ServiceLoaderGradlePlugin"
+    displayName = "app.softwork ServiceLoader Gradle Plugin"
+    description = "A Gradle plugin to generate and validate service loader"
 }
 
 tasks.validatePlugins {
