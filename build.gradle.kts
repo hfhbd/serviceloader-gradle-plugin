@@ -2,7 +2,6 @@ import java.util.Base64
 
 plugins {
     `kotlin-dsl`
-    `java-gradle-plugin`
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
