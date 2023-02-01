@@ -25,7 +25,7 @@ public abstract class CreateServiceLoadersResourcesFileTask : DefaultTask() {
     public abstract val classes: ConfigurableFileCollection
 
     init {
-        resourcesDir.convention(project.layout.buildDirectory.dir("resources/main/META-INT/services"))
+        resourcesDir.convention(project.layout.buildDirectory.dir("resources/main/META-INF/services"))
 
         project.plugins.withId("org.gradle.java") {
             classpath.from(project.configurations.named(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME))
