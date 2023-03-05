@@ -21,9 +21,13 @@ java {
 }
 
 publishing {
-    publications.register<MavenPublication>("maven") {
-        from(components["java"])
-
+    if (name != "gradle-plugin") {
+        publications.register<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+    publications.configureEach {
+        this as MavenPublication
         pom {
             name.set("app.softwork ServiceLoader Gradle Plugin")
             description.set("A Gradle plugin to generate and validate service loaders")
