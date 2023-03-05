@@ -15,7 +15,6 @@ public class ServiceLoaderPlugin(private val codeGenerator: CodeGenerator) : Sym
                     // TODO: use fqn
                     if (anno.shortName.getShortName() == ServiceLoader::class.simpleName) {
                         val provider = anno.arguments.single().value
-                        println(provider)
                         val providerDec = requireNotNull(resolver.getClassDeclarationByName(provider.toString())) {
                             "Class $provider not found."
                         }

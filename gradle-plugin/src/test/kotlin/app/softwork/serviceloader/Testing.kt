@@ -51,7 +51,6 @@ class Testing {
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
-        println(temp)
         assertEquals(
             listOf("Foo"),
             (temp / "build" / "generated" / "resources" / "serviceloader" / "META-INF" / "services").toFile().listFiles()
