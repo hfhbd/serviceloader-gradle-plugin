@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-description = "A Gradle plugin to generate and validate service loaders"
-
 private val serviceLoadersExtension = objects.domainObjectContainer(ServiceLoader::class.java)
 extensions.add("serviceLoaders", serviceLoadersExtension)
 
