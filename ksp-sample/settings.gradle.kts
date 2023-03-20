@@ -17,3 +17,6 @@ includeBuild("..") {
         substitute(module("app.softwork.serviceloader:ksp-annotation")).using(project(":ksp-annotation"))
     }
 }
+
+include(":lib")
+include(":impl")
