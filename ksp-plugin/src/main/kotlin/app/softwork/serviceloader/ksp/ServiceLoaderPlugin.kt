@@ -12,12 +12,10 @@ public class ServiceLoaderPlugin(private val codeGenerator: CodeGenerator) : Sym
         for (annotatedClass in resolver.getSymbolsWithAnnotation(ServiceLoader::class.qualifiedName!!)) {
             if (annotatedClass is KSClassDeclaration) {
                 for (anno in annotatedClass.annotations) {
-                    // TODO: use fqn
                     if (anno.shortName.getShortName() == ServiceLoader::class.simpleName) {
-                        val provider = anno.arguments.single().value
-                        val providerDec = requireNotNull(resolver.getClassDeclarationByName(provider.toString())) {
-                            "Class $provider not found."
-                        }
+                        val provider = anno.arguments.single().value as KSType
+                        
+                        val providerDec = provider.declaration
 
                         require(annotatedClass.getAllSuperTypes().any {
                             it.declaration == providerDec
