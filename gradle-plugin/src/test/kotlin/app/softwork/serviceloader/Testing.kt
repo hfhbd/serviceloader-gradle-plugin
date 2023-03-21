@@ -47,7 +47,7 @@ class Testing {
         val build = GradleRunner.create()
             .withPluginClasspath()
             .withProjectDir(tmp)
-            .withArguments(":assemble", "--stacktrace")
+            .withArguments(":assemble", "--stacktrace", "--configuration-cache")
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
@@ -101,7 +101,7 @@ class Testing {
         val build = GradleRunner.create()
             .withPluginClasspath()
             .withProjectDir(tmp)
-            .withArguments("assemble")
+            .withArguments("assemble", "--configuration-cache")
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
