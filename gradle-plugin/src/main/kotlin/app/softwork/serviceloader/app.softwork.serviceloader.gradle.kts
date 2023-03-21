@@ -35,13 +35,15 @@ plugins.withId("org.jetbrains.kotlin.jvm") {
         val jvmTarget = kotlin.target
         val mainComplication = jvmTarget.compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME)
 
-        val classesPath = mainComplication.flatMap { it.compileTaskProvider }.map {
-            it as KotlinJvmCompile
+        val compileTaskProvider = mainComplication.flatMap { it.compileTaskProvider }.map { it as KotlinJvmCompile }
+        val classesPath = compileTaskProvider.map {
             it.libraries
         }
         classpath.from(classesPath)
-        val compileTaskProvider = mainComplication.flatMap { it.compileTaskProvider }
-        classes.from(compileTaskProvider)
+        val klasses = compileTaskProvider.flatMap { 
+            it.destinationDirectory
+        }
+        classes.from(klasses)
     }
 }
 
