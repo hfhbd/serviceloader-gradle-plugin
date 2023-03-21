@@ -35,11 +35,13 @@ plugins.withId("org.jetbrains.kotlin.jvm") {
         val jvmTarget = kotlin.target
         val mainComplication = jvmTarget.compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME)
 
-        classpath.from(mainComplication.flatMap { it.compileTaskProvider }.map {
+        val classesPath = mainComplication.flatMap { it.compileTaskProvider }.map {
             it as KotlinJvmCompile
             it.libraries
-        })
-        classes.from(mainComplication.map { it.compileTaskProvider })
+        }
+        classpath.from(classesPath)
+        val compileTaskProvider = mainComplication.flatMap { it.compileTaskProvider }
+        classes.from(compileTaskProvider)
     }
 }
 
@@ -50,7 +52,7 @@ plugins.withId("com.google.devtools.ksp") {
     plugins.withId("org.jetbrains.kotlin.jvm") {
         val kotlin = extensions.getByName<KotlinJvmProjectExtension>("kotlin")
         val jvmTarget = kotlin.target
-        val mainComplication = jvmTarget.compilations[KotlinCompilation.MAIN_COMPILATION_NAME]
+        val mainComplication = jvmTarget.compilations.getByName(KotlinCompilation.MAIN_COMPILATION_NAME)
 
         dependencies.add(mainComplication.compileOnlyConfigurationName, kspAnnotationDep)
         dependencies.add("ksp", kspPluginDep)
