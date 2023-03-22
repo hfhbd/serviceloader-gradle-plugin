@@ -20,3 +20,5 @@ includeBuild("..") {
 
 include(":lib")
 include(":impl")
+
+include(":mpp")
