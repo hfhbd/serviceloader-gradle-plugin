@@ -51,9 +51,67 @@ class Testing {
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
+        assertEquals(TaskOutcome.SUCCESS, build.task(":createServiceLoadersResourcesFile")?.outcome)
         assertEquals(
             listOf("Foo"),
-            (temp / "build" / "generated" / "resources" / "serviceloader" / "META-INF" / "services").toFile().listFiles()
+            (temp / "build/generated/resources/serviceloader/META-INF/services").toFile().listFiles()
+                ?.map { it.name }
+        )
+    }
+    
+    @Test
+    fun kotlinMpp() {
+        val temp = Files.createTempDirectory("gradle")
+        val tmp = temp.toFile()
+        File(tmp, "build.gradle.kts").apply {
+            createNewFile()
+        }.writeText(
+            """
+            |plugins {
+            |  id("app.softwork.serviceloader")
+            |  kotlin("multiplatform") version "1.8.10"
+            |}
+            |
+            |repositories {
+            |  mavenCentral()
+            |}
+            |
+            |kotlin {
+            |  jvm()
+            |}
+            |
+            |serviceLoaders.register("Foo") {
+            |  implementationClasses.add("FooImpl")
+            |}
+            |
+        """.trimMargin()
+        )
+        val kotlin = File(tmp, "src/jvmMain/kotlin").apply {
+            mkdirs()
+        }
+        File(kotlin, "Foo.kt").apply {
+            createNewFile()
+        }.writeText(
+            //language=kotlin
+            """
+            |interface Foo
+            |
+            |class FooImpl : Foo
+        """.trimMargin()
+        )
+
+        val build = GradleRunner.create()
+            .withPluginClasspath()
+            .withProjectDir(tmp)
+            .withArguments(":assemble", "--stacktrace", "--configuration-cache")
+            .build()
+
+        assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
+        assertEquals(TaskOutcome.SUCCESS, build.task(":createServiceLoadersResourcesFileJvm")?.outcome)
+        println(tmp)
+        assertEquals(
+            listOf("Foo"),
+            (temp / "build/generated/jvm/resources/serviceloader/META-INF/services").toFile().listFiles()
                 ?.map { it.name }
         )
     }
@@ -108,7 +166,7 @@ class Testing {
         assertEquals(TaskOutcome.SUCCESS, build.task(":createServiceLoadersResourcesFile")?.outcome)
         assertEquals(
             listOf("Foo"),
-            (temp / "build" / "generated" / "resources" / "serviceloader" / "META-INF" / "services").toFile().listFiles()
+            (temp / "build/generated/resources/serviceloader/META-INF/services").toFile().listFiles()
                 ?.map { it.name }
         )
     }
