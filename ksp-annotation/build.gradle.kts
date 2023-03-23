@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("publishing")
+    myPublish
 }
 
 repositories {
@@ -18,9 +18,7 @@ kotlin {
         }
     }
 
-    jvm {
-        withJava()
-    }
+    jvm()
     
     js(IR) {
         browser()
@@ -52,9 +50,4 @@ kotlin {
     androidNativeX64()
     mingwX64()
     watchosDeviceArm64()
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }

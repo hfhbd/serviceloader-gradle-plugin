@@ -1,5 +1,10 @@
 plugins {
     setup
+    `maven-publish`
+}
+
+publishing.publications.register<MavenPublication>("mavenJava") {
+    from(components["java"])
 }
 
 dependencies {
