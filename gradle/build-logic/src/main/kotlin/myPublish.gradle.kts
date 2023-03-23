@@ -7,11 +7,6 @@ plugins {
 
 
 publishing {
-    if (name != "gradle-plugin") {
-        publications.register<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
     publications.configureEach {
         this as MavenPublication
         pom {

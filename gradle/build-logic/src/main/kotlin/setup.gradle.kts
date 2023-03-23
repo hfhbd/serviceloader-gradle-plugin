@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("publishing")
+    id("myPublish")
 }
 
 
