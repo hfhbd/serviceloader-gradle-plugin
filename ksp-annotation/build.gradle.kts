@@ -12,14 +12,14 @@ kotlin {
     explicitApi()
     targets.configureEach {
         compilations.configureEach {
-            compilerOptions.configure { 
+            compilerOptions.configure {
                 allWarningsAsErrors.set(true)
             }
         }
     }
 
     jvm()
-    
+
     js(IR) {
         browser()
         nodejs()
@@ -50,4 +50,15 @@ kotlin {
     androidNativeX64()
     mingwX64()
     watchosDeviceArm64()
+}
+
+val emptyJar by tasks.registering(Jar::class) { }
+
+publishing {
+    publications.configureEach {
+        this as MavenPublication
+        artifact(emptyJar) {
+            classifier = "javadoc"
+        }
+    }
 }
