@@ -22,7 +22,7 @@ private val configExtension: CreateServiceLoadersResourcesFileTask.() -> Unit = 
     })
 }
 
-plugins.withId("org.gradle.java") {
+pluginManager.withPlugin("org.gradle.java") {
     val serviceLoader = tasks.register(
         CreateServiceLoadersResourcesFileTaskName,
         CreateServiceLoadersResourcesFileTask::class,
@@ -37,7 +37,7 @@ plugins.withId("org.gradle.java") {
     }
 }
 
-plugins.withId("org.jetbrains.kotlin.jvm") {
+pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
     val kotlin = extensions.getByName<KotlinJvmProjectExtension>("kotlin")
     val serviceLoader = if (CreateServiceLoadersResourcesFileTaskName in tasks.names) {
         tasks.named<CreateServiceLoadersResourcesFileTask>(CreateServiceLoadersResourcesFileTaskName)
@@ -68,7 +68,7 @@ plugins.withId("org.jetbrains.kotlin.jvm") {
     }
 }
 
-plugins.withId("org.jetbrains.kotlin.multiplatform") {
+pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
     val kotlin = extensions.getByName<KotlinMultiplatformExtension>("kotlin")
     val jvmTargets = kotlin.targets.withType(KotlinJvmTarget::class)
     jvmTargets.configureEach {
@@ -102,11 +102,11 @@ plugins.withId("org.jetbrains.kotlin.multiplatform") {
     }
 }
 
-plugins.withId("com.google.devtools.ksp") {
+pluginManager.withPlugin("com.google.devtools.ksp") {
     val kspPluginDep = dependencies.create("app.softwork.serviceloader:ksp-plugin:$VERSION")
     val kspAnnotationDep = dependencies.create("app.softwork.serviceloader:ksp-annotation:$VERSION")
 
-    plugins.withId("org.jetbrains.kotlin.jvm") {
+    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         val kotlin = extensions.getByName<KotlinJvmProjectExtension>("kotlin")
         val jvmTarget = kotlin.target
         val mainComplication = jvmTarget.compilations.getByName(KotlinCompilation.MAIN_COMPILATION_NAME)
@@ -115,7 +115,7 @@ plugins.withId("com.google.devtools.ksp") {
         dependencies.add("ksp", kspPluginDep)
     }
 
-    plugins.withId("org.jetbrains.kotlin.multiplatform") {
+    pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
         val kotlin = extensions.getByName<KotlinMultiplatformExtension>("kotlin")
         val jvmTargets = kotlin.targets.withType(KotlinJvmTarget::class)
         jvmTargets.names.forEach { name ->

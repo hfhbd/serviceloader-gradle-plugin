@@ -46,6 +46,10 @@ class Testing {
 
         val build = GradleRunner.create()
             .withPluginClasspath()
+            .apply {
+                val kgp = System.getenv("kotlinFiles")?.split(":")?.map { File(it) } ?: emptyList()
+                withPluginClasspath(pluginClasspath + kgp)
+            }
             .withProjectDir(tmp)
             .withArguments(":assemble", "--stacktrace", "--configuration-cache")
             .build()
@@ -58,7 +62,7 @@ class Testing {
                 ?.map { it.name }
         )
     }
-    
+
     @Test
     fun kotlinMpp() {
         val temp = Files.createTempDirectory("gradle")
@@ -102,6 +106,10 @@ class Testing {
 
         val build = GradleRunner.create()
             .withPluginClasspath()
+            .apply {
+                val kgp = System.getenv("kotlinFiles")?.split(":")?.map { File(it) } ?: emptyList()
+                withPluginClasspath(pluginClasspath + kgp)
+            }
             .withProjectDir(tmp)
             .withArguments(":assemble", "--stacktrace", "--configuration-cache")
             .build()

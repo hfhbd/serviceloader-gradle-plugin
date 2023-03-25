@@ -3,10 +3,13 @@ plugins {
     setup
 }
 
+val kotlinFiles by configurations.creating
+
 dependencies {
-    implementation(kotlin("gradle-plugin"))
+    compileOnly(kotlin("gradle-plugin"))
 
     testImplementation(kotlin("test"))
+    kotlinFiles(kotlin("gradle-plugin"))
 }
 
 tasks.validatePlugins {
@@ -22,4 +25,8 @@ kotlin.sourceSets.main {
 gradlePlugin.plugins.configureEach { 
     displayName = "A Gradle plugin to generate and validate service loaders"
     description = "A Gradle plugin to generate and validate service loaders"
+}
+
+tasks.test {
+    environment("kotlinFiles", kotlinFiles.joinToString(":"))
 }
