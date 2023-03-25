@@ -1,13 +1,15 @@
+pluginManagement {
+    includeBuild("..")
+}
+
 rootProject.name = "ksp-sample"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
@@ -22,3 +24,4 @@ include(":lib")
 include(":impl")
 
 include(":mpp")
+include(":mpp-plugin")

@@ -6,10 +6,10 @@ plugins {
 val kotlinFiles by configurations.creating
 
 dependencies {
-    compileOnly(kotlin("gradle-plugin"))
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
 
     testImplementation(kotlin("test"))
-    kotlinFiles(kotlin("gradle-plugin"))
+    kotlinFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
 }
 
 tasks.validatePlugins {

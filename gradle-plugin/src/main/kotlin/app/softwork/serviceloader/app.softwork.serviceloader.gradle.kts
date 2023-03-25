@@ -118,7 +118,7 @@ pluginManager.withPlugin("com.google.devtools.ksp") {
     pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
         val kotlin = extensions.getByName<KotlinMultiplatformExtension>("kotlin")
         val jvmTargets = kotlin.targets.withType(KotlinJvmTarget::class)
-        jvmTargets.names.forEach { name ->
+        jvmTargets.configureEach {
             val kspName = "ksp" + name.replaceFirstChar { it.uppercaseChar() }
             dependencies.add(kspName, kspPluginDep)
         }
