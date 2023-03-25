@@ -1,3 +1,7 @@
+pluginManagement {
+    includeBuild("..")
+}
+
 rootProject.name = "ksp-sample"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
@@ -22,3 +26,4 @@ include(":lib")
 include(":impl")
 
 include(":mpp")
+include(":mpp-plugin")
