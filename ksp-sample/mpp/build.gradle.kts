@@ -34,7 +34,12 @@ kotlin {
     }
 }
 
+val kspFoo by configurations.existing
+val kspBar by configurations.existing
+
 dependencies {
-    "kspFoo"("app.softwork.serviceloader:ksp-plugin")
-    "kspBar"("app.softwork.serviceloader:ksp-plugin")
+    operator fun NamedDomainObjectProvider<Configuration>.invoke(dependencyNotation: Any): Dependency? = name.invoke(dependencyNotation)
+    
+    kspFoo("app.softwork.serviceloader:ksp-plugin")
+    kspBar("app.softwork.serviceloader:ksp-plugin")
 }
