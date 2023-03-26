@@ -7,14 +7,22 @@ plugins {
 kotlin {
     linuxX64()
 
+    jvm() 
+    
     jvm("foo") {
         attributes {
             // https://youtrack.jetbrains.com/issue/KT-55751
             val KT_55751 = Attribute.of("KT_55751", String::class.java)
-            attribute(KT_55751, "KT_55751")
+            attribute(KT_55751, "foo")
         }
     }
-    jvm("bar")
+    jvm("bar") {
+        attributes {
+            // https://youtrack.jetbrains.com/issue/KT-55751
+            val KT_55751 = Attribute.of("KT_55751", String::class.java)
+            attribute(KT_55751, "bar")
+        }
+    }
 
     sourceSets {
         named("fooMain") {

@@ -47,8 +47,8 @@ class Testing {
         val build = GradleRunner.create()
             .withPluginClasspath()
             .apply {
-                val kgp = System.getenv("kotlinFiles")?.split(":")?.map { File(it) } ?: emptyList()
-                withPluginClasspath(pluginClasspath + kgp)
+                val pluginFiles = System.getenv("pluginFiles")?.split(":")?.map { File(it) } ?: emptyList()
+                withPluginClasspath(pluginClasspath + pluginFiles)
             }
             .withProjectDir(tmp)
             .withArguments(":assemble", "--stacktrace", "--configuration-cache")
@@ -57,9 +57,9 @@ class Testing {
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
         assertEquals(TaskOutcome.SUCCESS, build.task(":createServiceLoadersResourcesFile")?.outcome)
         assertEquals(
-            listOf("Foo"),
+            setOf("Foo"),
             (temp / "build/generated/resources/serviceloader/META-INF/services").toFile().listFiles()
-                ?.map { it.name }
+                ?.map { it.name }?.toSet()
         )
     }
 
@@ -107,8 +107,8 @@ class Testing {
         val build = GradleRunner.create()
             .withPluginClasspath()
             .apply {
-                val kgp = System.getenv("kotlinFiles")?.split(":")?.map { File(it) } ?: emptyList()
-                withPluginClasspath(pluginClasspath + kgp)
+                val pluginFiles = System.getenv("pluginFiles")?.split(":")?.map { File(it) } ?: emptyList()
+                withPluginClasspath(pluginClasspath + pluginFiles)
             }
             .withProjectDir(tmp)
             .withArguments(":assemble", "--stacktrace", "--configuration-cache")
@@ -116,11 +116,10 @@ class Testing {
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
         assertEquals(TaskOutcome.SUCCESS, build.task(":createServiceLoadersResourcesFileJvm")?.outcome)
-        println(tmp)
         assertEquals(
-            listOf("Foo"),
+            setOf("Foo"),
             (temp / "build/generated/jvm/resources/serviceloader/META-INF/services").toFile().listFiles()
-                ?.map { it.name }
+                ?.map { it.name }?.toSet()
         )
     }
 
@@ -173,9 +172,9 @@ class Testing {
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
         assertEquals(TaskOutcome.SUCCESS, build.task(":createServiceLoadersResourcesFile")?.outcome)
         assertEquals(
-            listOf("Foo"),
+            setOf("Foo"),
             (temp / "build/generated/resources/serviceloader/META-INF/services").toFile().listFiles()
-                ?.map { it.name }
+                ?.map { it.name }?.toSet()
         )
     }
 }
