@@ -12,6 +12,7 @@ kotlin {
             val KT_55751 = Attribute.of("KT_55751", String::class.java)
             attribute(KT_55751, "KT_55751")
         }
+        withJava()
     }
     jvm("bar")
 

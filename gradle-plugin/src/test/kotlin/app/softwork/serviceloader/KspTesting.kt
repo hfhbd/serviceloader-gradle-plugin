@@ -178,4 +178,72 @@ class KspTesting {
             temp.toUri().toString()
         )
     }
+
+    @Test
+    fun java() {
+        val temp = Files.createTempDirectory("gradle")
+        val tmp = temp.toFile()
+        File(tmp, "build.gradle.kts").apply {
+            createNewFile()
+        }.writeText(
+            //language=kotlin
+            """
+            |plugins {
+            |  id("app.softwork.serviceloader")
+            |  kotlin("jvm")
+            |  id("com.google.devtools.ksp")
+            |}
+            |
+            |repositories {
+            |  mavenCentral()
+            |}
+            |
+        """.trimMargin()
+        )
+        val projectDir = System.getenv("projectDir")
+        File(tmp, "settings.gradle.kts").apply {
+            createNewFile()
+        }.writeText("""
+            |includeBuild("$projectDir") {
+            |  dependencySubstitution {
+            |    substitute(module("app.softwork.serviceloader:ksp-plugin")).using(project(":ksp-plugin"))
+            |    substitute(module("app.softwork.serviceloader:ksp-annotation")).using(project(":ksp-annotation"))
+            |  }
+            |}
+        """.trimMargin())
+        val java = File(tmp, "src/main/java").apply {
+            mkdirs()
+        }
+        File(java, "Foo.java").apply {
+            createNewFile()
+        }.writeText(
+            //language=Java
+            """
+            |import app.softwork.serviceloader.ServiceLoader;
+            |
+            |interface Foo { }
+            |
+            |@ServiceLoader(forClass = Foo.class)
+            |class FooImpl implements Foo {}
+        """.trimMargin()
+        )
+
+        val build = GradleRunner.create()
+            .withPluginClasspath()
+            .apply {
+                val pluginFiles = System.getenv("pluginFiles")?.split(":")?.map { File(it) } ?: emptyList()
+                withPluginClasspath(pluginClasspath + pluginFiles)
+            }
+            .withProjectDir(tmp)
+            .withArguments(":assemble", "--stacktrace", "--configuration-cache")
+            .build()
+
+        assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
+        assertEquals(TaskOutcome.SUCCESS, build.task(":kspKotlin")?.outcome, build.tasks.joinToString(prefix = temp.toString()))
+        assertEquals(
+            setOf("Foo"),
+            (temp / "build/generated/ksp/main/resources/META-INF/services").toFile().listFiles()
+                ?.map { it.name }?.toSet()
+        )
+    }
 }
