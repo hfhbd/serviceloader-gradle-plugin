@@ -8,10 +8,10 @@ val kspPlugin by configurations.creating
 val kspAnnotation by configurations.creating
 
 dependencies {
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
 
     testImplementation(kotlin("test"))
-    pluginFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20-RC2")
+    pluginFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
     pluginFiles("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.8.20-RC2-1.0.9")
     kspPlugin(projects.kspPlugin)
     kspAnnotation(projects.kspAnnotation)
