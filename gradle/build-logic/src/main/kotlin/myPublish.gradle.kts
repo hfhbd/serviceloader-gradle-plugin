@@ -5,7 +5,6 @@ plugins {
     signing
 }
 
-
 publishing {
     publications.configureEach {
         this as MavenPublication
