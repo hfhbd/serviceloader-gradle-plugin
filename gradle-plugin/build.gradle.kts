@@ -12,7 +12,7 @@ dependencies {
 
     testImplementation(kotlin("test"))
     pluginFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20-RC2")
-    pluginFiles("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.8.20-RC2-1.0.9")
+    pluginFiles("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.8.20-1.0.10")
     kspPlugin(projects.kspPlugin)
     kspAnnotation(projects.kspAnnotation)
 }
