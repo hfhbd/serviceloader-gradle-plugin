@@ -40,7 +40,7 @@ Apply the ksp plugin.
 // build.gradle.kts
 
 plugins {
-    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
     id("app.softwork.serviceloader") version "LATEST"
 }
 ```

@@ -16,6 +16,3 @@ jobs:
       - uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Build sample sample
-        run: ./gradlew build
-        working-directory: ksp-sample

@@ -1,5 +1,5 @@
 plugins {
-    setup
+    kotlinSetup
     `maven-publish`
 }
 
