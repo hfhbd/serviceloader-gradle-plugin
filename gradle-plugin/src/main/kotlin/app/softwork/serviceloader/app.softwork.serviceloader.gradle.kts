@@ -109,10 +109,10 @@ pluginManager.withPlugin("com.google.devtools.ksp") {
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         val kotlin = extensions.getByName<KotlinJvmProjectExtension>("kotlin")
         val jvmTarget = kotlin.target
-        val mainComplication = jvmTarget.compilations.getByName(KotlinCompilation.MAIN_COMPILATION_NAME)
-
-        dependencies.add(mainComplication.compileOnlyConfigurationName, kspAnnotationDep)
-        dependencies.add("ksp", kspPluginDep)
+        jvmTarget.compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
+            dependencies.add(compileOnlyConfigurationName, kspAnnotationDep)
+            dependencies.add("ksp", kspPluginDep)
+        }
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
