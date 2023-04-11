@@ -55,8 +55,7 @@ kotlin {
 val emptyJar by tasks.registering(Jar::class) { }
 
 publishing {
-    publications.configureEach {
-        this as MavenPublication
+    publications.withType<MavenPublication>().configureEach {
         artifact(emptyJar) {
             classifier = "javadoc"
         }

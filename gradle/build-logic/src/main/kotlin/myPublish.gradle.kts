@@ -6,8 +6,7 @@ plugins {
 }
 
 publishing {
-    publications.configureEach {
-        this as MavenPublication
+    publications.withType<MavenPublication>().configureEach {
         pom {
             name.set("app.softwork ServiceLoader Gradle Plugin")
             description.set("A Gradle plugin to generate and validate service loaders")
