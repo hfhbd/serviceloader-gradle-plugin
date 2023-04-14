@@ -8,7 +8,7 @@ pluginManagement {
 
 plugins { 
     id("myRepos")
-    id("com.gradle.enterprise") version "3.13"
+    id("com.gradle.enterprise") version "3.12.6"
 }
 
 gradleEnterprise {
