@@ -4,8 +4,6 @@ plugins {
 }
 
 val pluginFiles by configurations.creating
-val kspPlugin by configurations.creating
-val kspAnnotation by configurations.creating
 
 dependencies {
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
@@ -13,8 +11,6 @@ dependencies {
     testImplementation(kotlin("test"))
     pluginFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
     pluginFiles("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.8.20-1.0.11")
-    kspPlugin(projects.kspPlugin)
-    kspAnnotation(projects.kspAnnotation)
 }
 
 tasks.validatePlugins {
@@ -34,7 +30,5 @@ gradlePlugin.plugins.configureEach {
 
 tasks.test {
     environment("pluginFiles", pluginFiles.joinToString(":"))
-    environment("kspPlugin", kspPlugin.joinToString(":"))
-    environment("kspAnnotation", kspAnnotation.joinToString(":"))
     environment("projectDir", project.rootDir.toString())
 }
