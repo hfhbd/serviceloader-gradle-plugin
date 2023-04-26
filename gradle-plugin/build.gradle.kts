@@ -6,10 +6,10 @@ plugins {
 val pluginFiles by configurations.creating
 
 dependencies {
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
 
     testImplementation(kotlin("test"))
-    pluginFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
+    pluginFiles("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
     pluginFiles("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.8.20-1.0.11")
 }
 
