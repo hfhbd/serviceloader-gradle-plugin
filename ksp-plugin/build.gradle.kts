@@ -1,6 +1,6 @@
 plugins {
-    kotlinSetup
-    `maven-publish`
+    id("kotlinSetup")
+    id("maven-publish")
 }
 
 publishing.publications.register<MavenPublication>("mavenJava") {
@@ -9,5 +9,5 @@ publishing.publications.register<MavenPublication>("mavenJava") {
 
 dependencies {
     implementation(projects.kspAnnotation)
-    implementation("com.google.devtools.ksp:symbol-processing-api:1.8.21-1.0.11")
+    implementation(libs.ksp.api)
 }
