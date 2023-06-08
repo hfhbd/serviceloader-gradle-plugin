@@ -1,8 +1,8 @@
 import java.util.*
 
 plugins {
-    `maven-publish`
-    signing
+    id("maven-publish")
+    id("signing")
 }
 
 publishing {

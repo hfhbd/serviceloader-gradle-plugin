@@ -1,10 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    myPublish
-}
-
-repositories {
-    mavenCentral()
+    id("myPublish")
 }
 
 kotlin {
