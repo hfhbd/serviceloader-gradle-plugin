@@ -18,5 +18,6 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           dependency-graph: generate-and-submit
+          gradle-home-cache-cleanup: true
       - name: Build with Gradle
         run: ./gradlew build
