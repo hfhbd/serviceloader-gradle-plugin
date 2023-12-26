@@ -10,6 +10,7 @@ kotlin {
         compilations.configureEach {
             compilerOptions.configure {
                 allWarningsAsErrors.set(true)
+                freeCompilerArgs.add("-Xexpect-actual-classes")
             }
         }
     }
