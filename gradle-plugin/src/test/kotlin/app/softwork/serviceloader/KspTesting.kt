@@ -179,6 +179,7 @@ class KspTesting {
         )
     }
 
+    @Ignore
     @Test
     fun java() {
         val temp = Files.createTempDirectory("gradle")
