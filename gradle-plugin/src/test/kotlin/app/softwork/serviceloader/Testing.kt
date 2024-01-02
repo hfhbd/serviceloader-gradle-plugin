@@ -17,8 +17,10 @@ class Testing {
             """
             |plugins {
             |  id("app.softwork.serviceloader")
-            |  kotlin("jvm") version "1.8.10"
+            |  kotlin("jvm") version "1.9.22"
             |}
+            |
+            |kotlin.jvmToolchain(8)
             |
             |repositories {
             |  mavenCentral()
@@ -73,7 +75,7 @@ class Testing {
             """
             |plugins {
             |  id("app.softwork.serviceloader")
-            |  kotlin("multiplatform") version "1.8.10"
+            |  kotlin("multiplatform") version "1.9.22"
             |}
             |
             |repositories {
@@ -81,6 +83,7 @@ class Testing {
             |}
             |
             |kotlin {
+            |  jvmToolchain(8)
             |  jvm()
             |}
             |
@@ -133,8 +136,10 @@ class Testing {
             """
             |plugins {
             |  id("app.softwork.serviceloader")
-            |  java
+            |  id("java")
             |}
+            |
+            |java.toolchain.languageVersion.set(JavaLanguageVersion.of(8))
             |
             |serviceLoaders.register("Foo") {
             |  implementationClasses.add("FooImpl")
