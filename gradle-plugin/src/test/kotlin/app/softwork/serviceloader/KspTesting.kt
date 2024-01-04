@@ -26,6 +26,8 @@ class KspTesting {
             |  mavenCentral()
             |}
             |
+            |kotlin.jvmToolchain(8)
+            |
         """.trimMargin()
         )
         val projectDir = System.getenv("projectDir")
@@ -95,6 +97,8 @@ class KspTesting {
             |}
             |
             |kotlin {
+            |  jvmToolchain(8)
+            |
             |  jvm()
             |  jvm("foo") {
             |    attributes {
@@ -199,6 +203,8 @@ class KspTesting {
             |  mavenCentral()
             |}
             |
+            |kotlin.jvmToolchain(8)
+            |
         """.trimMargin()
         )
         val projectDir = System.getenv("projectDir")
@@ -222,10 +228,19 @@ class KspTesting {
             """
             |import app.softwork.serviceloader.ServiceLoader;
             |
-            |interface Foo { }
+            |public interface Foo { }
+        """.trimMargin()
+        )
+
+        File(java, "FooImpl.java").apply {
+            createNewFile()
+        }.writeText(
+            //language=Java
+            """
+            |import app.softwork.serviceloader.ServiceLoader;
             |
             |@ServiceLoader(forClass = Foo.class)
-            |class FooImpl implements Foo {}
+            |public class FooImpl implements Foo {}
         """.trimMargin()
         )
 
