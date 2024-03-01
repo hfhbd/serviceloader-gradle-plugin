@@ -1,5 +1,5 @@
 [versions]
-ksp = "1.9.22-1.0.17"
+ksp = "1.9.22-1.0.18"
 
 [libraries]
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version = "1.9.22" }
