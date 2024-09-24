@@ -8,21 +8,27 @@ concurrency:
   group: "cd"
   cancel-in-progress: false
 
+env:
+  GRADLE_OPTS: -Dorg.gradle.caching=true
+
 jobs:
   build:
     runs-on: macos-latest
 
-    environment: CD
+    environment:
+      name: CD
 
     steps:
       - name: Set environment for version
         run: long="${{ github.ref }}"; version=${long#"refs/tags/v"}; echo "version=${version}" >> $GITHUB_ENV
       - uses: actions/checkout@v4
-      - uses: gradle/gradle-build-action@v2
-      - name: Build with Gradle
-        run: ./gradlew build -Pversion=$version
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
       - name: Publish
-        run: ./gradlew -Pversion=$version -Dorg.gradle.parallel=false --no-configuration-cache publish closeAndReleaseStagingRepository
+        run: ./gradlew -Pversion=$version -Dorg.gradle.parallel=false --no-configuration-cache publish :closeAndReleaseStagingRepository
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
