@@ -19,7 +19,7 @@ tasks.validatePlugins {
 
 val version by tasks.registering(VersionTask::class)
 
-kotlin.sourceSets.main {
+sourceSets.main {
     kotlin.srcDir(version)
 }
 

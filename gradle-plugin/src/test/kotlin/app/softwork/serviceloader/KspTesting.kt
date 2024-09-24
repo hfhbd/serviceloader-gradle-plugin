@@ -34,12 +34,7 @@ class KspTesting {
         File(tmp, "settings.gradle.kts").apply { 
             createNewFile()
         }.writeText("""
-            |includeBuild("$projectDir") {
-            |  dependencySubstitution {
-            |    substitute(module("app.softwork.serviceloader:ksp-plugin")).using(project(":ksp-plugin"))
-            |    substitute(module("app.softwork.serviceloader:ksp-annotation")).using(project(":ksp-annotation"))
-            |  }
-            |}
+            |includeBuild("$projectDir")
         """.trimMargin())
         val kotlin = File(tmp, "src/main/kotlin").apply {
             mkdirs()
@@ -116,12 +111,7 @@ class KspTesting {
         File(tmp, "settings.gradle.kts").apply {
             createNewFile()
         }.writeText("""
-            |includeBuild("$projectDir") {
-            |  dependencySubstitution {
-            |    substitute(module("app.softwork.serviceloader:ksp-plugin")).using(project(":ksp-plugin"))
-            |    substitute(module("app.softwork.serviceloader:ksp-annotation")).using(project(":ksp-annotation"))
-            |  }
-            |}
+            |includeBuild("$projectDir")
         """.trimMargin())
         val kotlin = File(tmp, "src/jvmMain/kotlin").apply {
             mkdirs()
@@ -211,12 +201,7 @@ class KspTesting {
         File(tmp, "settings.gradle.kts").apply {
             createNewFile()
         }.writeText("""
-            |includeBuild("$projectDir") {
-            |  dependencySubstitution {
-            |    substitute(module("app.softwork.serviceloader:ksp-plugin")).using(project(":ksp-plugin"))
-            |    substitute(module("app.softwork.serviceloader:ksp-annotation")).using(project(":ksp-annotation"))
-            |  }
-            |}
+            |includeBuild("$projectDir")
         """.trimMargin())
         val java = File(tmp, "src/main/java").apply {
             mkdirs()
