@@ -28,6 +28,8 @@ class KspTesting {
             |
             |kotlin.jvmToolchain(8)
             |
+            |sourceSets.register("bar")
+            |
         """.trimMargin()
         )
         val projectDir = System.getenv("projectDir")
@@ -53,6 +55,23 @@ class KspTesting {
         """.trimMargin()
         )
 
+        val bar = File(tmp, "src/bar/kotlin").apply {
+            mkdirs()
+        }
+        File(bar, "Bar.kt").apply {
+            createNewFile()
+        }.writeText(
+            //language=kotlin
+            """
+            |import app.softwork.serviceloader.ServiceLoader
+            |
+            |interface Bar
+            |
+            |@ServiceLoader(Bar::class)
+            |class BarImpl : Bar
+        """.trimMargin()
+        )
+
         val build = GradleRunner.create()
             .withPluginClasspath()
             .apply {
@@ -60,7 +79,7 @@ class KspTesting {
                 withPluginClasspath(pluginClasspath + pluginFiles)
             }
             .withProjectDir(tmp)
-            .withArguments(":assemble", "--stacktrace", "--configuration-cache")
+            .withArguments(":assemble", ":kspBarKotlin", "--stacktrace", "--configuration-cache")
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
@@ -68,6 +87,11 @@ class KspTesting {
         assertEquals(
             setOf("Foo"),
             (temp / "build/generated/ksp/main/resources/META-INF/services").toFile().listFiles()
+                ?.map { it.name }?.toSet()
+        )
+        assertEquals(
+            setOf("Bar"),
+            (temp / "build/generated/ksp/bar/resources/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet()
         )
     }
