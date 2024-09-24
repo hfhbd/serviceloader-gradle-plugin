@@ -7,7 +7,6 @@ import kotlin.io.path.*
 import kotlin.test.*
 
 class Testing {
-    @Ignore
     @Test
     fun kotlin() {
         val temp = Files.createTempDirectory("gradle")
@@ -33,10 +32,6 @@ class Testing {
             |
             |repositories {
             |  mavenCentral()
-            |}
-            |
-            |serviceLoaders.register("Foo") {
-            |  implementationClasses.add("FooImpl")
             |}
             |
         """.trimMargin()
