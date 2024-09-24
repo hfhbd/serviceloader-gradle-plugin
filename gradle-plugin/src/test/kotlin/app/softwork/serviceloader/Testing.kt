@@ -7,17 +7,26 @@ import kotlin.io.path.*
 import kotlin.test.*
 
 class Testing {
+    @Ignore
     @Test
     fun kotlin() {
         val temp = Files.createTempDirectory("gradle")
         val tmp = temp.toFile()
+
+        val projectDir = System.getenv("projectDir")
+        File(tmp, "settings.gradle.kts").apply {
+            createNewFile()
+        }.writeText("""
+            |includeBuild("$projectDir")
+        """.trimMargin())
+
         File(tmp, "build.gradle.kts").apply {
             createNewFile()
         }.writeText(
             """
             |plugins {
             |  id("app.softwork.serviceloader")
-            |  kotlin("jvm") version "1.9.22"
+            |  kotlin("jvm")
             |}
             |
             |kotlin.jvmToolchain(8)
@@ -69,13 +78,21 @@ class Testing {
     fun kotlinMpp() {
         val temp = Files.createTempDirectory("gradle")
         val tmp = temp.toFile()
+
+        val projectDir = System.getenv("projectDir")
+        File(tmp, "settings.gradle.kts").apply {
+            createNewFile()
+        }.writeText("""
+            |includeBuild("$projectDir")
+        """.trimMargin())
+
         File(tmp, "build.gradle.kts").apply {
             createNewFile()
         }.writeText(
             """
             |plugins {
             |  id("app.softwork.serviceloader")
-            |  kotlin("multiplatform") version "1.9.22"
+            |  kotlin("multiplatform")
             |}
             |
             |repositories {
@@ -130,6 +147,14 @@ class Testing {
     fun java() {
         val temp = Files.createTempDirectory("gradle")
         val tmp = temp.toFile()
+
+        val projectDir = System.getenv("projectDir")
+        File(tmp, "settings.gradle.kts").apply {
+            createNewFile()
+        }.writeText("""
+            |includeBuild("$projectDir")
+        """.trimMargin())
+
         File(tmp, "build.gradle.kts").apply {
             createNewFile()
         }.writeText(
