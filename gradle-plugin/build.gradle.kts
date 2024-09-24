@@ -6,11 +6,11 @@ plugins {
 val pluginFiles by configurations.creating
 
 dependencies {
-    compileOnly(libs.kotlin.gradlePlugin)
+    implementation(libs.ksp.gradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
 
     testImplementation(kotlin("test"))
     pluginFiles(libs.kotlin.gradlePlugin)
-    pluginFiles(libs.ksp.gradlePlugin)
 }
 
 tasks.validatePlugins {

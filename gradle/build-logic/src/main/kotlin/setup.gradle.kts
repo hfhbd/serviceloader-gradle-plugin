@@ -8,10 +8,8 @@ pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
     extensions.configure<KotlinJvmProjectExtension> {
         jvmToolchain(8)
         explicitApi()
-        target.compilations.configureEach {
-            compilerOptions.configure {
-                allWarningsAsErrors.set(true)
-            }
+        compilerOptions {
+            allWarningsAsErrors.set(true)
         }
     }
 }
