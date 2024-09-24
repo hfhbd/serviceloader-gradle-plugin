@@ -6,18 +6,14 @@ plugins {
 kotlin {
     jvmToolchain(8)
     explicitApi()
-    targets.configureEach {
-        compilations.configureEach {
-            compilerOptions.configure {
-                allWarningsAsErrors.set(true)
-                freeCompilerArgs.add("-Xexpect-actual-classes")
-            }
-        }
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
     jvm()
 
-    js(IR) {
+    js {
         browser()
         nodejs()
     }
