@@ -6,11 +6,17 @@ plugins {
 val pluginFiles by configurations.creating
 
 dependencies {
-    implementation(libs.ksp.gradlePlugin)
-    implementation(libs.kotlin.gradlePlugin)
+    compileOnly(libs.plugins.ksp.toDep())
+    runtimeOnly(libs.plugins.ksp.toDep())
+
+    implementation(libs.plugins.kotlin.jvm.toDep())
 
     testImplementation(kotlin("test"))
-    pluginFiles(libs.kotlin.gradlePlugin)
+    pluginFiles(libs.plugins.ksp.toDep())
+}
+
+fun Provider<PluginDependency>.toDep() = map {
+    "${it.pluginId}:${it.pluginId}.gradle.plugin:${it.version}"
 }
 
 tasks.validatePlugins {
@@ -23,7 +29,7 @@ sourceSets.main {
     kotlin.srcDir(version)
 }
 
-gradlePlugin.plugins.configureEach { 
+gradlePlugin.plugins.configureEach {
     displayName = "A Gradle plugin to generate and validate service loaders"
     description = "A Gradle plugin to generate and validate service loaders"
 }

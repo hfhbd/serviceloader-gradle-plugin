@@ -8,7 +8,7 @@ import kotlin.test.*
 
 class KspTesting {
     @Test
-    fun kotlin() {
+    fun kotlinJvm() {
         val temp = Files.createTempDirectory("gradle")
         val tmp = temp.toFile()
         File(tmp, "build.gradle.kts").apply {
@@ -87,12 +87,14 @@ class KspTesting {
         assertEquals(
             setOf("Foo"),
             (temp / "build/generated/ksp/main/resources/META-INF/services").toFile().listFiles()
-                ?.map { it.name }?.toSet()
+                ?.map { it.name }?.toSet(),
+            temp.toUri().toString(),
         )
         assertEquals(
             setOf("Bar"),
             (temp / "build/generated/ksp/bar/resources/META-INF/services").toFile().listFiles()
-                ?.map { it.name }?.toSet()
+                ?.map { it.name }?.toSet(),
+            temp.toUri().toString(),
         )
     }
 
@@ -187,13 +189,13 @@ class KspTesting {
             setOf("Foo", "CommonFoo"),
             (temp / "build/generated/ksp/jvm/jvmMain/resources/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet(),
-            temp.toUri().toString()
+            temp.toUri().toString(),
         )
         assertEquals(
             setOf("CommonFoo"),
             (temp / "build/generated/ksp/foo/fooMain/resources/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet(),
-            temp.toUri().toString()
+            temp.toUri().toString(),
         )
     }
 
@@ -267,7 +269,8 @@ class KspTesting {
         assertEquals(
             setOf("Foo"),
             (temp / "build/generated/ksp/main/resources/META-INF/services").toFile().listFiles()
-                ?.map { it.name }?.toSet()
+                ?.map { it.name }?.toSet(),
+            temp.toUri().toString(),
         )
     }
 }
