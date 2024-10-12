@@ -41,8 +41,8 @@ plugins {
 }
 ```
 
-> **Note**
-The Kotlin compiler plugin does not support Java source code. In this case, you need to use the ksp plugin.
+> [!NOTE]
+> The Kotlin compiler plugin does not support Java source code. In this case, you need to use the ksp plugin.
 
 ## Annotate the code
 
