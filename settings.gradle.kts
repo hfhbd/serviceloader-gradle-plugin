@@ -33,3 +33,5 @@ include(":gradle-plugin")
 
 include(":ksp-annotation")
 include(":ksp-plugin")
+
+include(":kotlin-plugin")

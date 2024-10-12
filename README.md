@@ -16,23 +16,7 @@ pluginManagement {
 }
 ```
 
-```kotlin
-// build.gradle.kts
-
-plugins {
-    id("app.softwork.serviceloader") version "LATEST"
-}
-
-serviceLoaders.register("my.custom.Serviceloader") {
-    implementationClasses.add("my.custom.ServiceProvider")
-}
-```
-
-The services and its providers will be validated.
-The services are checked to be available in the `compileClasspath`.
-The implementation classes are required to provide a public zero-arg constructor.
-
-## Usage with ksp
+### Use with ksp
 
 Apply the ksp plugin.
 
@@ -44,14 +28,33 @@ plugins {
     id("app.softwork.serviceloader") version "LATEST"
 }
 ```
+
+### Use as Kotlin compiler plugin
+
+Apply the Kotlin compiler plugin.
+
+```kotlin
+// build.gradle.kts
+
+plugins {
+    id("app.softwork.serviceloader-compiler") version "LATEST"
+}
+```
+
+> **Note**
+The Kotlin compiler plugin does not support Java source code. In this case, you need to use the ksp plugin.
+
+## Annotate the code
+
 And use the `app.softwork.serviceloader.ServiceLoader` annotation:
+
 ```kotlin
 import app.softwork.serviceloader.ServiceLoader
 
 interface Provider
 
 @ServiceLoader(Provider::class)
-class Impl: Provider
+class Impl : Provider
 ```
 
 ## License
