@@ -1,16 +1,11 @@
 package app.softwork.validation.plugin.kotlin
 
 import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderCompilerPluginRegistrar.Companion.registerServiceLoader
-import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderInitExtensionRegistrar
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
-import org.jetbrains.kotlin.backend.common.extensions.*
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.test.assertEquals
 
 fun jvmCompile(vararg files: SourceFile, writeFile: (String, String) -> Unit) {
     val result = KotlinCompilation()
@@ -20,7 +15,9 @@ fun jvmCompile(vararg files: SourceFile, writeFile: (String, String) -> Unit) {
             inheritClassPath = true
         }
         .compile()
-    assertEquals(ExitCode.OK, result.exitCode)
+    require(result.exitCode == ExitCode.OK) {
+        result.messages
+    }
 }
 
 private class ValidationCompilerPluginRegistrarTest(
