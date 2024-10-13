@@ -15,8 +15,8 @@ fun jvmCompile(vararg files: SourceFile, writeFile: (String, String) -> Unit) {
             inheritClassPath = true
         }
         .compile()
-    if (result.exitCode != ExitCode.OK) {
-     throw IllegalArgumentException(result.messages)
+    require(result.exitCode == ExitCode.OK) {
+        result.messages
     }
 }
 
