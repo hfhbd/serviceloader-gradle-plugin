@@ -29,6 +29,8 @@ class KotlinTesting {
             |
             |sourceSets.register("bar")
             |
+            |java.withSourcesJar()
+            |
         """.trimMargin()
         )
         val projectDir = System.getenv("projectDir")
