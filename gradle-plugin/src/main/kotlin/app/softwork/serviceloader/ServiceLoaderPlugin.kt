@@ -37,7 +37,8 @@ public class ServiceLoaderPlugin : KotlinCompilerPluginSupportPlugin {
 
     private fun runtimeDependency() = "app.softwork.serviceloader:ksp-annotation:$VERSION"
 
-    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean = kotlinCompilation.platformType == KotlinPlatformType.jvm
+    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
+        kotlinCompilation.platformType == KotlinPlatformType.jvm
 
     override fun getCompilerPluginId(): String = "app.softwork.serviceloader"
 
@@ -49,11 +50,26 @@ public class ServiceLoaderPlugin : KotlinCompilerPluginSupportPlugin {
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
         val project = kotlinCompilation.target.project
-        val outputDir = project.layout.buildDirectory.dir("generated/serviceloader/${kotlinCompilation.defaultSourceSet.name}/resources")
-        kotlinCompilation.compileTaskProvider.configure {
+        val outputDir =
+            project.layout.buildDirectory.dir("generated/serviceloader/${kotlinCompilation.defaultSourceSet.name}/resources")
+        val compileTaskProvider = kotlinCompilation.compileTaskProvider
+        compileTaskProvider.configure {
             outputs.dir(outputDir)
         }
-        kotlinCompilation.defaultSourceSet.resources.srcDir(outputDir)
+        val kotlinSourceSet = kotlinCompilation.defaultSourceSet
+        kotlinSourceSet.resources.srcDir(outputDir)
+        val processResourcesTaskName = if (kotlinSourceSet.name == "main") {
+            "processResources"
+        } else {
+            if (project.pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")) {
+                kotlinSourceSet.name.removeSuffix("Main") + "ProcessResources"
+            } else {
+                "process" + kotlinSourceSet.name.replaceFirstChar { it.uppercaseChar() } + "Resources"
+            }
+        }
+        kotlinCompilation.project.tasks.named(processResourcesTaskName) {
+            dependsOn(compileTaskProvider)
+        }
 
         val options = kotlinCompilation.project.objects.listProperty<SubpluginOption>()
         options.add(

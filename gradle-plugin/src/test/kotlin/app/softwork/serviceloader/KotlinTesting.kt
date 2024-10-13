@@ -80,7 +80,7 @@ class KotlinTesting {
                 withPluginClasspath(pluginClasspath + pluginFiles)
             }
             .withProjectDir(tmp)
-            .withArguments(":assemble", ":compileBarKotlin", "--stacktrace", "--configuration-cache")
+            .withArguments(":build", ":compileBarKotlin", "--stacktrace", "--configuration-cache")
             .build()
 
         assertEquals(TaskOutcome.SUCCESS, build.task(":assemble")?.outcome)
@@ -93,6 +93,12 @@ class KotlinTesting {
         assertEquals(
             setOf("Bar"),
             (temp / "build/generated/serviceloader/bar/resources/META-INF/services").toFile().listFiles()
+                ?.map { it.name }?.toSet(),
+            temp.toUri().toString(),
+        )
+        assertEquals(
+            setOf("Foo"),
+            (temp / "build/resources/main/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet(),
             temp.toUri().toString(),
         )
@@ -195,6 +201,19 @@ class KotlinTesting {
         assertEquals(
             setOf("CommonFoo"),
             (temp / "build/generated/serviceloader/fooMain/resources/META-INF/services").toFile().listFiles()
+                ?.map { it.name }?.toSet(),
+            temp.toUri().toString(),
+        )
+
+        assertEquals(
+            setOf("Foo", "CommonFoo"),
+            (temp / "build/processedResources/jvm/main/META-INF/services").toFile().listFiles()
+                ?.map { it.name }?.toSet(),
+            temp.toUri().toString(),
+        )
+        assertEquals(
+            setOf("CommonFoo"),
+            (temp / "build/processedResources/foo/main/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet(),
             temp.toUri().toString(),
         )
