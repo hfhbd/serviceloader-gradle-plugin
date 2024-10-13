@@ -33,6 +33,10 @@ gradlePlugin.plugins.configureEach {
     displayName = "A Gradle plugin to generate and validate service loaders"
     description = "A Gradle plugin to generate and validate service loaders"
 }
+gradlePlugin.plugins.register("serviceloader") {
+    id = "app.softwork.serviceloader-compiler"
+    implementationClass = "app.softwork.serviceloader.ServiceLoaderPlugin"
+}
 
 tasks.test {
     environment("pluginFiles", pluginFiles.joinToString(":"))

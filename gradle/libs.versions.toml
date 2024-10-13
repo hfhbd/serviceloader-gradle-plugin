@@ -1,9 +1,13 @@
 [versions]
-kotlin = "2.0.21"
-ksp = "2.0.21-1.0.25"
+kotlin = "2.1.0-Beta1"
+ksp = "2.1.0-Beta1-1.0.25"
 
 [libraries]
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+kotlin-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler", version.ref = "kotlin" }
+
+kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
+kotlinCompilerTester = { module = "dev.zacsweers.kctfork:core", version = "0.6.0-alpha01" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
