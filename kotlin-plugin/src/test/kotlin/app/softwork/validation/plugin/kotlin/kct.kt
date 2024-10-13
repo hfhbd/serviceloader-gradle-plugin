@@ -2,6 +2,7 @@ package app.softwork.validation.plugin.kotlin
 
 import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderCompilerPluginRegistrar.Companion.registerServiceLoader
 import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderInitExtensionRegistrar
+import com.tschuchort.compiletesting.DiagnosticSeverity
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
@@ -20,7 +21,9 @@ fun jvmCompile(vararg files: SourceFile, writeFile: (String, String) -> Unit) {
             inheritClassPath = true
         }
         .compile()
-    assertEquals(ExitCode.OK, result.exitCode)
+    if (result.exitCode != ExitCode.OK) {
+     throw IllegalArgumentException(result.messages)
+    }
 }
 
 private class ValidationCompilerPluginRegistrarTest(
