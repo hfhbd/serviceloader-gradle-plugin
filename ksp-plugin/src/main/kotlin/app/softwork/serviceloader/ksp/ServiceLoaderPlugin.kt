@@ -20,18 +20,18 @@ public class ServiceLoaderPlugin(private val codeGenerator: CodeGenerator) : Sym
                         require(annotatedClass.getAllSuperTypes().any {
                             it.declaration == providerDec
                         }) {
-                            "Class $annotatedClass does not implement or inherit $provider."
+                            "$annotatedClass does not implement or inherit $provider."
                         }
                         require(annotatedClass.getConstructors().any {
                             it.isPublic() && it.parameters.isEmpty()
                         }) {
-                            "Class $annotatedClass does not have a public zero arg constructor."
+                            "$annotatedClass does not have a public zero arg constructor."
                         }
                         require(!annotatedClass.isAbstract()) {
-                            "Class $annotatedClass is abstract."
+                            "$annotatedClass is abstract."
                         }
                         requireNotNull(annotatedClass.qualifiedName) {
-                            "Class $annotatedClass is local."
+                            "$annotatedClass is local."
                         }
                         val providerName = providerDec.qualifiedName!!.asString()
                         val found = providers[provider.toString()]

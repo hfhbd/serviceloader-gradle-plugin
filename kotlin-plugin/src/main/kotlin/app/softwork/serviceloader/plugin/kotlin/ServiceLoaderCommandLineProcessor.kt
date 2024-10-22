@@ -30,7 +30,7 @@ public class ServiceLoaderCommandLineProcessor : CommandLineProcessor {
         value: String,
         configuration: CompilerConfiguration
     ) {
-        return when (option.optionName) {
+        when (option.optionName) {
             OPTION_OUTPUT_DIR -> configuration.put(OPTION_OUTPUT_ARG, File(value))
             else -> throw IllegalArgumentException("Unexpected config option ${option.optionName}")
         }

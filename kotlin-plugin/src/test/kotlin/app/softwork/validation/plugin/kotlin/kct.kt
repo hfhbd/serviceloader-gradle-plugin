@@ -1,6 +1,7 @@
 package app.softwork.validation.plugin.kotlin
 
-import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderCompilerPluginRegistrar.Companion.registerServiceLoader
+import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderCompilerPluginRegistrar.Companion.registerServiceLoaderFIR
+import app.softwork.serviceloader.plugin.kotlin.ServiceLoaderCompilerPluginRegistrar.Companion.registerServiceLoaderIR
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
@@ -25,6 +26,7 @@ private class ValidationCompilerPluginRegistrarTest(
 ) : CompilerPluginRegistrar() {
     override val supportsK2 = true
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
-        registerServiceLoader(writeFile)
+        registerServiceLoaderFIR()
+        registerServiceLoaderIR(writeFile)
     }
 }

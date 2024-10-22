@@ -65,7 +65,7 @@ class CompilerTest {
         val error = assertFailsWith<IllegalArgumentException> {
             jvmCompile(source) { name, input -> }
         }
-        assertTrue("Class BarImpl does not implement or inherit Bar." in error.message!!)
+        assertTrue("BarImpl does not implement or inherit Bar." in error.message!!)
     }
 
     @Test
@@ -84,7 +84,7 @@ class CompilerTest {
         val error = assertFailsWith<IllegalArgumentException> {
             jvmCompile(source) { name, input -> }
         }
-        assertTrue("Class BarImpl does not have a public zero arg constructor." in error.message!!)
+        assertTrue("BarImpl does not have a public zero arg constructor." in error.message!!)
     }
 
     @Test
@@ -103,7 +103,7 @@ class CompilerTest {
         val error = assertFailsWith<IllegalArgumentException> {
             jvmCompile(source) { name, input -> }
         }
-        assertTrue("Class BarImpl does not have a public zero arg constructor." in error.message!!)
+        assertTrue("BarImpl does not have a public zero arg constructor." in error.message!!)
     }
 
     @Test
@@ -117,14 +117,14 @@ class CompilerTest {
             |
             |fun main() {
             |  @ServiceLoader(Bar::class)
-            |  class BarImpl private constructor() : Bar
+            |  class BarImpl : Bar
             |}
             """.trimMargin(),
         )
         val error = assertFailsWith<IllegalArgumentException> {
             jvmCompile(source) { name, input -> }
         }
-        assertTrue("Class main.BarImpl is local." in error.message!!)
+        assertTrue("main.BarImpl is local." in error.message!!)
     }
 
     @Test
@@ -144,6 +144,47 @@ class CompilerTest {
         val error = assertFailsWith<IllegalArgumentException> {
             jvmCompile(source) { name, input -> }
         }
-        assertTrue("Class BarImpl is abstract." in error.message!!)
+        assertTrue("BarImpl is abstract." in error.message!!)
+    }
+
+    @Test
+    fun objectFails() {
+        val source = SourceFile.kotlin(
+            "main.kt",
+            """
+            |import app.softwork.serviceloader.ServiceLoader
+            |
+            |interface Bar
+            |
+            |@ServiceLoader(Bar::class)
+            |object BarImpl : Bar
+            |
+            """.trimMargin(),
+        )
+        val error = assertFailsWith<IllegalArgumentException> {
+            jvmCompile(source) { name, input -> }
+        }
+        assertTrue("BarImpl does not have a public zero arg constructor." in error.message!!)
+    }
+
+    @Test
+    fun interfaceFails() {
+        val source = SourceFile.kotlin(
+            "main.kt",
+            """
+            |import app.softwork.serviceloader.ServiceLoader
+            |
+            |interface Bar
+            |
+            |@ServiceLoader(Bar::class)
+            |interface BarImpl : Bar
+            |
+            """.trimMargin(),
+        )
+        val error = assertFailsWith<IllegalArgumentException> {
+            jvmCompile(source) { name, input -> }
+        }
+        assertTrue("BarImpl is abstract." in error.message!!)
+        assertTrue("BarImpl does not have a public zero arg constructor." in error.message!!)
     }
 }
