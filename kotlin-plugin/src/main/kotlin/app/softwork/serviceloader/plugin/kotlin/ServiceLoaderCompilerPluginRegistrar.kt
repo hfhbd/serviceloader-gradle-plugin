@@ -37,7 +37,6 @@ public class ServiceLoaderCompilerPluginRegistrar : CompilerPluginRegistrar() {
         fun ExtensionStorage.registerServiceLoaderIR(writeFile: (String, String) -> Unit) {
             val extension = ServiceLoaderInitExtensionRegistrar(writeFile)
             IrGenerationExtension.registerExtension(extension)
-            registerDisposable(extension)
         }
     }
 }
