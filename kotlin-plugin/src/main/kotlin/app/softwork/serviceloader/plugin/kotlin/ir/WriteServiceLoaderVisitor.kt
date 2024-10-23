@@ -14,20 +14,21 @@ import org.jetbrains.kotlin.ir.util.getValueArgument
 import org.jetbrains.kotlin.ir.util.isLocal
 import org.jetbrains.kotlin.ir.util.isSubclassOf
 import org.jetbrains.kotlin.ir.util.kotlinFqName
-import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
-import org.jetbrains.kotlin.ir.visitors.acceptChildrenVoid
-import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.name.Name
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
 
-internal class WriteServiceLoaderVisitor(
-    private val writeFile: (name: String, input: String) -> Unit,
-) : IrElementVisitorVoid {
+internal object WriteServiceLoaderVisitor : IrElementVisitor<Unit, MutableMap<String, MutableList<String>>> {
 
-    override fun visitElement(element: IrElement) {
-        element.acceptChildrenVoid(this)
+    override fun visitElement(
+        element: IrElement,
+        data: MutableMap<String, MutableList<String>>,
+    ) {
+        element.acceptChildren(this, data)
     }
 
-    override fun visitClass(declaration: IrClass) {
+    override fun visitClass(
+        declaration: IrClass,
+        data: MutableMap<String, MutableList<String>>,
+    ) {
         val serviceLoaderAnnotation =
             declaration.getAnnotation(serviceLoaderFq) ?: return
         val declarationFq = declaration.kotlinFqName
@@ -52,6 +53,7 @@ internal class WriteServiceLoaderVisitor(
         require(declaration.modality != Modality.ABSTRACT) {
             "${declarationFq.asString()} is abstract."
         }
-        writeFile(providerFq.asString(), declarationFq.asString())
+
+        data.computeIfAbsent(providerFq.asString()) { mutableListOf() }.add(declarationFq.asString())
     }
 }
