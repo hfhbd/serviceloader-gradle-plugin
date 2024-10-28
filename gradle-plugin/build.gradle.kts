@@ -3,6 +3,8 @@ plugins {
     id("setup")
 }
 
+kotlin.jvmToolchain(21)
+
 val pluginFiles by configurations.creating
 
 dependencies {
