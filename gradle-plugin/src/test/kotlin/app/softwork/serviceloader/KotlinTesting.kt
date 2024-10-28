@@ -39,6 +39,11 @@ class KotlinTesting {
         }.writeText(
             """
             |includeBuild("$projectDir")
+            |
+            |plugins {
+            |  id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+            |}
+            |
         """.trimMargin()
         )
         val kotlin = File(tmp, "src/main/kotlin").apply {
@@ -146,6 +151,11 @@ class KotlinTesting {
         }.writeText(
             """
             |includeBuild("$projectDir")
+            |
+            |plugins {
+            |  id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+            |}
+            
         """.trimMargin()
         )
         val kotlin = File(tmp, "src/jvmMain/kotlin").apply {
