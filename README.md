@@ -44,6 +44,8 @@ plugins {
 > [!NOTE]
 > The Kotlin compiler plugin does not support Java source code. In this case, you need to use the ksp plugin.
 
+You might also want to enable the compiler plugin in IntelliJ `kotlin.k2.only.bundled.compiler.plugins.enabled` to `false` in the registry.
+
 ## Annotate the code
 
 And use the `app.softwork.serviceloader.ServiceLoader` annotation:
