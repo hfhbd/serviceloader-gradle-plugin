@@ -1,6 +1,8 @@
-# serviceloader-gradle-plugin
+# serviceloader
 
-A Gradle plugin generating and validating your service providers.
+A Kotlin compiler and ksp plugin that generate and validate your service providers.
+
+The Kotlin compiler plugin does not support Java source code. In this case, you need to use the ksp plugin.
 
 ## Usage
 
@@ -16,19 +18,6 @@ pluginManagement {
 }
 ```
 
-### Use with ksp
-
-Apply the ksp plugin.
-
-```kotlin
-// build.gradle.kts
-
-plugins {
-    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
-    id("app.softwork.serviceloader") version "LATEST"
-}
-```
-
 ### Use as Kotlin compiler plugin
 
 Apply the Kotlin compiler plugin.
@@ -41,10 +30,20 @@ plugins {
 }
 ```
 
-> [!NOTE]
-> The Kotlin compiler plugin does not support Java source code. In this case, you need to use the ksp plugin.
-
 You might also want to enable the compiler plugin in IntelliJ by setting `kotlin.k2.only.bundled.compiler.plugins.enabled` to `false` in the registry.
+
+### Use with ksp
+
+Apply the ksp plugin.
+
+```kotlin
+// build.gradle.kts
+
+plugins {
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id("app.softwork.serviceloader") version "LATEST"
+}
+```
 
 ## Annotate the code
 
