@@ -29,7 +29,7 @@ public class ServiceLoaderPlugin : KotlinCompilerPluginSupportPlugin {
         }
     }
 
-    private fun runtimeDependency() = "app.softwork.serviceloader:ksp-annotation:$VERSION"
+    private fun runtimeDependency() = "app.softwork.serviceloader:runtime:$VERSION"
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
         kotlinCompilation.platformType == KotlinPlatformType.jvm

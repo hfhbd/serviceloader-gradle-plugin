@@ -1,6 +1,5 @@
 package app.softwork.serviceloader.ksp
 
-import app.softwork.serviceloader.*
 import com.google.devtools.ksp.*
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
@@ -9,10 +8,10 @@ public class ServiceLoaderPlugin(private val codeGenerator: CodeGenerator) : Sym
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val providers = mutableMapOf<String, MutableList<KSClassDeclaration>>()
 
-        for (annotatedClass in resolver.getSymbolsWithAnnotation(ServiceLoader::class.qualifiedName!!)) {
+        for (annotatedClass in resolver.getSymbolsWithAnnotation("app.softwork.serviceloader.ServiceLoader")) {
             if (annotatedClass is KSClassDeclaration) {
                 for (anno in annotatedClass.annotations) {
-                    if (anno.shortName.getShortName() == ServiceLoader::class.simpleName) {
+                    if (anno.shortName.getShortName() == "ServiceLoader") {
                         val provider = anno.arguments.single().value as KSType
                         
                         val providerDec = provider.declaration
