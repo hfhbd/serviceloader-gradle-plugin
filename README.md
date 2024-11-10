@@ -6,8 +6,7 @@ The Kotlin compiler plugin does not support Java source code. In this case, you 
 
 ## Usage
 
-This plugin is uploaded to mavenCentral `app.softwork.serviceloader:gradle-plugin:LATEST`, so you need to add
-mavenCentral to your plugin repositories:
+This plugin is uploaded to mavenCentral, so you need to add `mavenCentral()` to your plugin repositories:
 
 ```kotlin
 // settings.gradle.kts
@@ -40,7 +39,7 @@ Apply the ksp plugin.
 // build.gradle.kts
 
 plugins {
-    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id("com.google.devtools.ksp")
     id("app.softwork.serviceloader") version "LATEST"
 }
 ```
