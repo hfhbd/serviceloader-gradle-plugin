@@ -8,7 +8,7 @@ plugins {
 }
 
 private val kspPluginDep = dependencies.create("app.softwork.serviceloader:ksp-plugin:$VERSION")
-private val kspAnnotationDep = dependencies.create("app.softwork.serviceloader:ksp-annotation:$VERSION")
+private val kspAnnotationDep = dependencies.create("app.softwork.serviceloader:runtime:$VERSION")
 
 pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
     val sourceSets = extensions.getByName("sourceSets") as SourceSetContainer

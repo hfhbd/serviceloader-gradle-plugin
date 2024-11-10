@@ -17,5 +17,5 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinCompilerTester)
     testImplementation(libs.kotlin.compiler.embeddable)
-    testImplementation(projects.kspAnnotation)
+    testImplementation(projects.runtime)
 }

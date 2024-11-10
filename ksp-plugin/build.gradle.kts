@@ -8,6 +8,5 @@ publishing.publications.register<MavenPublication>("mavenJava") {
 }
 
 dependencies {
-    implementation(projects.kspAnnotation)
     implementation(libs.ksp.api)
 }

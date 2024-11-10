@@ -31,7 +31,7 @@ enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 include(":gradle-plugin")
 
-include(":ksp-annotation")
-include(":ksp-plugin")
+include(":runtime")
 
+include(":ksp-plugin")
 include(":kotlin-plugin")
