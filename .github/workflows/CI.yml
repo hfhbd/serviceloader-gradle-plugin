@@ -10,9 +10,6 @@ jobs:
   build:
     runs-on: macos-latest
 
-    env:
-      GRADLE_OPTS: -Dorg.gradle.caching=true
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

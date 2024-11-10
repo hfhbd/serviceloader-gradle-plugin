@@ -5,7 +5,7 @@ plugins {
 dependencies { 
     implementation(libs.plugins.kotlin.jvm.toDep())
     implementation(libs.plugins.ksp.toDep())
-    implementation(libs.plugins.publish.toDep())
+    implementation(libs.plugins.mavencentral.toDep())
 }
 
 fun Provider<PluginDependency>.toDep() = map {
