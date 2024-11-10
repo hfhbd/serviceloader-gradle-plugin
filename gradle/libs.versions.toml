@@ -12,4 +12,4 @@ kotlinCompilerTester = { module = "dev.zacsweers.kctfork:core", version = "0.6.0
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
+mavencentral = { id = "io.github.hfhbd.mavencentral", version = "0.0.14" }
