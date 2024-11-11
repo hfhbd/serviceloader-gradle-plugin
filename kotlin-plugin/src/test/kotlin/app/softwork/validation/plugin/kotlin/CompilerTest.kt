@@ -124,7 +124,7 @@ class CompilerTest {
         val error = assertFailsWith<IllegalArgumentException> {
             jvmCompile(source) { name, input -> }
         }
-        assertTrue("main.BarImpl is local." in error.message!!)
+        assertTrue("BarImpl is local." in error.message!!)
     }
 
     @Test
