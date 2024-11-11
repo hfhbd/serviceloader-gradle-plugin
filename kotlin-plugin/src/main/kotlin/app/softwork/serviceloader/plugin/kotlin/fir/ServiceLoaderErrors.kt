@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.diagnostics.rendering.RootDiagnosticRendererFactory
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.psi.KtElement
 
-internal object ServiceLoaderErrors {
+internal data object ServiceLoaderErrors {
     val SUPERTYPE_OF_CLASS_DOES_NOT_MATCH by error2<KtElement, FirRegularClassSymbol, FirRegularClassSymbol>()
     val NO_PUBLIC_CONSTRUCTOR by error1<KtElement, FirRegularClassSymbol>()
     val ABSTRACT_CLASS by error1<KtElement, FirRegularClassSymbol>()
