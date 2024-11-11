@@ -1,6 +1,7 @@
 package app.softwork.serviceloader.plugin.kotlin.fir
 
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.ABSTRACT_CLASS
+import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.LOCAL_CLASS
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.NO_PUBLIC_CONSTRUCTOR
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.SUPERTYPE_OF_CLASS_DOES_NOT_MATCH
 import org.jetbrains.kotlin.diagnostics.*
@@ -25,6 +26,12 @@ internal data object KtDefaultErrorMessagesServiceLoaders : BaseDiagnosticRender
         put(
             ABSTRACT_CLASS,
             "{0} is abstract.",
+            DECLARATION_NAME,
+        )
+        
+        put(
+            LOCAL_CLASS,
+            "{0} is local.",
             DECLARATION_NAME,
         )
     }

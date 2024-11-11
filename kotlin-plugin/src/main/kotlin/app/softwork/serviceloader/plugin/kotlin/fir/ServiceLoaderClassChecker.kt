@@ -1,6 +1,7 @@
 package app.softwork.serviceloader.plugin.kotlin.fir
 
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.ABSTRACT_CLASS
+import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.LOCAL_CLASS
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.NO_PUBLIC_CONSTRUCTOR
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderErrors.SUPERTYPE_OF_CLASS_DOES_NOT_MATCH
 import app.softwork.serviceloader.plugin.kotlin.fir.ServiceLoaderPredicateMatchingService.Companion.forClass
@@ -60,6 +61,14 @@ internal data object ServiceLoaderClassChecker : FirRegularClassChecker(MppCheck
                 reporter.reportOn(
                     declaration.source,
                     ABSTRACT_CLASS,
+                    declaration.symbol,
+                    context,
+                )
+            }
+            if (declaration.isLocal) {
+                reporter.reportOn(
+                    declaration.source,
+                    LOCAL_CLASS,
                     declaration.symbol,
                     context,
                 )
