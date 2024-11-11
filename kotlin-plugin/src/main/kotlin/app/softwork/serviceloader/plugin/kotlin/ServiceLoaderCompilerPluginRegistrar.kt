@@ -30,8 +30,7 @@ public class ServiceLoaderCompilerPluginRegistrar : CompilerPluginRegistrar() {
 
     internal companion object {
         fun ExtensionStorage.registerServiceLoaderFIR() {
-            val firExtension = ServiceLoaderFirExtensionRegistrar()
-            FirExtensionRegistrarAdapter.registerExtension(firExtension)
+            FirExtensionRegistrarAdapter.registerExtension(ServiceLoaderFirExtensionRegistrar)
         }
 
         fun ExtensionStorage.registerServiceLoaderIR(writeFile: (String, String) -> Unit) {
