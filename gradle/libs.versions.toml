@@ -7,7 +7,7 @@ ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.re
 kotlin-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler", version.ref = "kotlin" }
 
 kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
-kotlinCompilerTester = { module = "dev.zacsweers.kctfork:core", version = "0.6.0-alpha01" }
+kotlinCompilerTester = { module = "dev.zacsweers.kctfork:core", version = "0.7.0-alpha01" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
