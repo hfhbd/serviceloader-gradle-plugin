@@ -62,10 +62,10 @@ public class ServiceLoaderPlugin : KotlinCompilerPluginSupportPlugin {
         kotlinSourceSet.resources.srcDir(outputDirWithTask)
 
         val options = project.objects.listProperty<SubpluginOption>()
-        options.add(
+        options.add(outputDir.map {
             FilesSubpluginOption(
                 key = "outputDir",
-                files = listOf(outputDir.get().asFile),
+                files = listOf(it.asFile),
             )
         )
         return options
