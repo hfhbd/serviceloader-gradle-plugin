@@ -67,7 +67,7 @@ public class ServiceLoaderPlugin : KotlinCompilerPluginSupportPlugin {
                 key = "outputDir",
                 files = listOf(it.asFile),
             )
-        )
+        })
         return options
     }
 }
