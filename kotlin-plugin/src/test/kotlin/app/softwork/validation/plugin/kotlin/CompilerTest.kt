@@ -27,6 +27,57 @@ class CompilerTest {
     }
 
     @Test
+    fun nestedWorks() {
+        val source = SourceFile.kotlin(
+            "main.kt",
+            """
+            |import app.softwork.serviceloader.ServiceLoader
+            |
+            |interface Bar {
+            |  interface A
+            |
+            |  @ServiceLoader(A::class)
+            |  class BarImpl : A
+            |}
+            """.trimMargin(),
+        )
+        var called = false
+        jvmCompile(source) { name, input ->
+            called = true
+            assertEquals("Bar${'$'}A", name)
+            assertEquals("Bar${'$'}BarImpl", input)
+        }
+        assertTrue(called)
+    }
+
+    @Test
+    fun multipleClassesWorks() {
+        val source = SourceFile.kotlin(
+            "main.kt",
+            """
+            |import app.softwork.serviceloader.ServiceLoader
+            |
+            |interface Bar
+            |
+            |@ServiceLoader(Bar::class)
+            |class BarImpl : Bar
+            |
+            |interface Foo : Bar
+            |
+            |@ServiceLoader(Bar::class)
+            |class FooImpl: Foo
+            """.trimMargin(),
+        )
+        var called = false
+        jvmCompile(source) { name, input ->
+            called = true
+            assertEquals("Bar", name)
+            assertEquals("BarImpl\nFooImpl\n", input)
+        }
+        assertTrue(called)
+    }
+
+    @Test
     fun inheritedSuperTypeWorks() {
         val source = SourceFile.kotlin(
             "main.kt",

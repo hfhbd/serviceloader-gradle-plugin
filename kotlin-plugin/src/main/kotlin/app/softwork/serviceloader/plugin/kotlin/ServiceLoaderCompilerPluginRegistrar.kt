@@ -20,8 +20,8 @@ public class ServiceLoaderCompilerPluginRegistrar : CompilerPluginRegistrar() {
             val serviceDir = File(outputDir, "META-INF/services")
             serviceDir.mkdirs()
 
-            val generateFile = { name: String, input: String ->
-                File(serviceDir, name).writeText(input)
+            val generateFile = { fileName: String, fileContent: String ->
+                File(serviceDir, fileName).writeText(fileContent, charset = Charsets.UTF_8)
             }
 
             registerServiceLoaderIR(generateFile)
