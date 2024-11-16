@@ -11,8 +11,8 @@ internal class ServiceLoaderPredicateMatchingService(
     session: FirSession,
 ) : AbstractSimpleClassPredicateMatchingService(session) {
 
-    override val predicate: DeclarationPredicate = DeclarationPredicate.Companion.create {
-        annotated(serviceLoaderFq) or metaAnnotated(serviceLoaderFq, includeItself = true)
+    override val predicate = DeclarationPredicate.create {
+        annotated(serviceLoaderFq)
     }
 
     companion object {
