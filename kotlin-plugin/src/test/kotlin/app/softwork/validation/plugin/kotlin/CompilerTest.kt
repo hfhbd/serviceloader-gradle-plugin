@@ -21,7 +21,7 @@ class CompilerTest {
         jvmCompile(source) { name, input ->
             called = true
             assertEquals("Bar", name)
-            assertEquals("BarImpl", input)
+            assertEquals("BarImpl\n", input)
         }
         assertTrue(called)
     }
@@ -45,7 +45,7 @@ class CompilerTest {
         jvmCompile(source) { name, input ->
             called = true
             assertEquals("Bar${'$'}A", name)
-            assertEquals("Bar${'$'}BarImpl", input)
+            assertEquals("Bar${'$'}BarImpl\n", input)
         }
         assertTrue(called)
     }
@@ -95,7 +95,7 @@ class CompilerTest {
         jvmCompile(source) { name, input ->
             called = true
             assertEquals("Bar", name)
-            assertEquals("BarImpl", input)
+            assertEquals("BarImpl\n", input)
         }
         assertTrue(called)
     }
