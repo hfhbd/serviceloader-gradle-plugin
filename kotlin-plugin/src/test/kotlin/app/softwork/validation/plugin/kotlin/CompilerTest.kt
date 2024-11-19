@@ -9,6 +9,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -17,13 +19,14 @@ class CompilerTest {
             |class BarImpl : Bar
             """.trimMargin(),
         )
-        var called = false
-        jvmCompile(source) { name, input ->
-            called = true
-            assertEquals("Bar", name)
-            assertEquals("BarImpl\n", input)
+        var name: String? = null
+        var input: String? = null
+        jvmCompile(source) { fileName, fileContent ->
+            name = fileName
+            input = fileContent
         }
-        assertTrue(called)
+        assertEquals("foo.bar.Bar", name)
+        assertEquals("foo.bar.BarImpl\n", input)
     }
 
     @Test
@@ -31,6 +34,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar {
@@ -41,13 +46,14 @@ class CompilerTest {
             |}
             """.trimMargin(),
         )
-        var called = false
-        jvmCompile(source) { name, input ->
-            called = true
-            assertEquals("Bar${'$'}A", name)
-            assertEquals("Bar${'$'}BarImpl\n", input)
+        var name: String? = null
+        var input: String? = null
+        jvmCompile(source) { fileName, fileContent ->
+            name = fileName
+            input = fileContent
         }
-        assertTrue(called)
+        assertEquals("foo.bar.Bar${'$'}A", name)
+        assertEquals("foo.bar.Bar${'$'}BarImpl\n", input)
     }
 
     @Test
@@ -55,6 +61,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -68,13 +76,14 @@ class CompilerTest {
             |class FooImpl: Foo
             """.trimMargin(),
         )
-        var called = false
-        jvmCompile(source) { name, input ->
-            called = true
-            assertEquals("Bar", name)
-            assertEquals("BarImpl\nFooImpl\n", input)
+        var name: String? = null
+        var input: String? = null
+        jvmCompile(source) { fileName, fileContent ->
+            name = fileName
+            input = fileContent
         }
-        assertTrue(called)
+        assertEquals("foo.bar.Bar", name)
+        assertEquals("foo.bar.BarImpl\nfoo.bar.FooImpl\n", input)
     }
 
     @Test
@@ -82,6 +91,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -91,13 +102,14 @@ class CompilerTest {
             |class BarImpl : Baz
             """.trimMargin(),
         )
-        var called = false
-        jvmCompile(source) { name, input ->
-            called = true
-            assertEquals("Bar", name)
-            assertEquals("BarImpl\n", input)
+        var name: String? = null
+        var input: String? = null
+        jvmCompile(source) { fileName, fileContent ->
+            name = fileName
+            input = fileContent
         }
-        assertTrue(called)
+        assertEquals("foo.bar.Bar", name)
+        assertEquals("foo.bar.BarImpl\n", input)
     }
 
     @Test
@@ -105,6 +117,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -124,6 +138,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -143,6 +159,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -162,6 +180,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -183,6 +203,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -203,6 +225,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
@@ -223,6 +247,8 @@ class CompilerTest {
         val source = SourceFile.kotlin(
             "main.kt",
             """
+            |package foo.bar
+            |
             |import app.softwork.serviceloader.ServiceLoader
             |
             |interface Bar
