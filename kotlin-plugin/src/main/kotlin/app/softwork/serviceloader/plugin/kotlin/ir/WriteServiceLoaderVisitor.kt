@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.ir.visitors.*
-import org.jetbrains.kotlin.resolve.jvm.JvmClassName
+import org.jetbrains.kotlin.name.ClassId
 
 internal data object WriteServiceLoaderVisitor : IrElementVisitor<Unit, MutableMap<String, MutableList<String>>> {
 
@@ -26,12 +26,22 @@ internal data object WriteServiceLoaderVisitor : IrElementVisitor<Unit, MutableM
         val serviceLoaderAnnotation = declaration.getAnnotation(serviceLoaderFq)
         if (serviceLoaderAnnotation != null) {
             val forClassRef = (serviceLoaderAnnotation.getValueArgument(name = forClass)!! as IrClassReference)
-            val providerFq = JvmClassName.byClassId(forClassRef.classType.getClass()!!.classId!!)
+            val providerFq = binaryNameByClassId(forClassRef.classType.getClass()!!.classId!!)
 
-            data.computeIfAbsent(providerFq.toString()) { mutableListOf() }.add(
-                JvmClassName.byClassId(declaration.classId!!).toString()
+            data.computeIfAbsent(providerFq) { mutableListOf() }.add(
+                binaryNameByClassId(declaration.classId!!)
             )
         }
         declaration.acceptChildren(this, data)
+    }
+
+    private fun binaryNameByClassId(classId: ClassId): String {
+        val packageFqName = classId.packageFqName
+        val relativeClassName = classId.relativeClassName.asString().replace('.', '$')
+        return if (packageFqName.isRoot) {
+            relativeClassName
+        } else {
+            packageFqName.asString() + "." + relativeClassName
+        }
     }
 }
