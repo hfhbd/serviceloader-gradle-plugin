@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.1.0-RC"
+kotlin = "2.1.0-RC2"
 ksp = "2.1.0-RC-1.0.27"
 kct = "0.7.0-alpha01"
 
