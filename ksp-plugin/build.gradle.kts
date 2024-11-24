@@ -8,5 +8,10 @@ publishing.publications.register<MavenPublication>("mavenJava") {
 }
 
 dependencies {
-    implementation(libs.ksp.api)
+    compileOnly(libs.ksp.api)
+
+    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinCompilerTester.ksp)
+    testImplementation(libs.ksp.api)
+    testImplementation(projects.runtime)
 }

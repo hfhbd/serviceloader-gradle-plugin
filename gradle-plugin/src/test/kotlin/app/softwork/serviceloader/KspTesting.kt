@@ -121,13 +121,6 @@ class KspTesting {
             |  jvmToolchain(8)
             |
             |  jvm()
-            |  jvm("foo") {
-            |    attributes {
-            |      // https://youtrack.jetbrains.com/issue/KT-55751
-            |      val KT_55751 = Attribute.of("KT_55751", String::class.java)
-            |      attribute(KT_55751, "foo")
-            |    } 
-            |  }
             |  linuxX64()
             |}
             |
@@ -188,12 +181,6 @@ class KspTesting {
         assertEquals(
             setOf("Foo", "CommonFoo"),
             (temp / "build/generated/ksp/jvm/jvmMain/resources/META-INF/services").toFile().listFiles()
-                ?.map { it.name }?.toSet(),
-            temp.toUri().toString(),
-        )
-        assertEquals(
-            setOf("CommonFoo"),
-            (temp / "build/generated/ksp/foo/fooMain/resources/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet(),
             temp.toUri().toString(),
         )

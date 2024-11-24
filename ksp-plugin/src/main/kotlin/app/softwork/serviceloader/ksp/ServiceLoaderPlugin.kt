@@ -4,58 +4,85 @@ import com.google.devtools.ksp.*
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 
-public class ServiceLoaderPlugin(private val codeGenerator: CodeGenerator) : SymbolProcessor {
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-        val providers = mutableMapOf<String, MutableList<KSClassDeclaration>>()
+@KspExperimental
+public class ServiceLoaderPlugin(
+    private val codeGenerator: CodeGenerator,
+    private val logger: KSPLogger,
+) : SymbolProcessor {
+    private val providers = mutableMapOf<String, MutableList<String>>()
 
-        for (annotatedClass in resolver.getSymbolsWithAnnotation("app.softwork.serviceloader.ServiceLoader")) {
+    override fun finish() {
+        for ((binaryProviderName, binaryImplementations) in providers) {
+            codeGenerator.createNewFileByPath(
+                dependencies = Dependencies(false),
+                path = "META-INF/services/$binaryProviderName",
+                extensionName = "",
+            ).bufferedWriter(charset = Charsets.UTF_8).use {
+                for (binaryImplementation in binaryImplementations) {
+                    it.appendLine(binaryImplementation)
+                }
+            }
+        }
+    }
+
+    override fun process(resolver: Resolver): List<KSAnnotated> {
+        val notFound = mutableListOf<KSAnnotated>()
+
+        annotated@ for (annotatedClass in resolver.getSymbolsWithAnnotation(
+            annotationName = "app.softwork.serviceloader.ServiceLoader",
+            inDepth = true,
+        )) {
             if (annotatedClass is KSClassDeclaration) {
                 for (anno in annotatedClass.annotations) {
                     if (anno.shortName.getShortName() == "ServiceLoader") {
+                        if (annotatedClass.classKind != ClassKind.CLASS) {
+                            logger.error("$annotatedClass is not a class.", annotatedClass)
+                        }
+                        if (annotatedClass.getConstructors().none {
+                                it.isPublic() && it.parameters.isEmpty()
+                            }
+                        ) {
+                            logger.error("$annotatedClass does not have a public zero arg constructor.", annotatedClass)
+                        }
+                        if (annotatedClass.isAbstract()) {
+                            logger.error("$annotatedClass is abstract.", annotatedClass)
+                        }
+                        if (annotatedClass.qualifiedName == null) {
+                            logger.error("$annotatedClass is local.", annotatedClass)
+                        }
                         val provider = anno.arguments.single().value as KSType
-                        
+                        if (provider.isError) {
+                            notFound.add(annotatedClass)
+                            continue@annotated
+                        }
+
                         val providerDec = provider.declaration
 
-                        require(annotatedClass.getAllSuperTypes().any {
-                            it.declaration == providerDec
-                        }) {
-                            "$annotatedClass does not implement or inherit $provider."
+                        if (annotatedClass.getAllSuperTypes().none {
+                                it.declaration == providerDec
+                            }
+                        ) {
+                            logger.error("$annotatedClass does not implement or inherit $provider.", annotatedClass)
                         }
-                        require(annotatedClass.getConstructors().any {
-                            it.isPublic() && it.parameters.isEmpty()
-                        }) {
-                            "$annotatedClass does not have a public zero arg constructor."
-                        }
-                        require(!annotatedClass.isAbstract()) {
-                            "$annotatedClass is abstract."
-                        }
-                        requireNotNull(annotatedClass.qualifiedName) {
-                            "$annotatedClass is local."
-                        }
-                        val providerName = providerDec.qualifiedName!!.asString()
-                        val found = providers[provider.toString()]
+                        val providerName = resolver.getBinaryName(providerDec)
+                        val found = providers[providerName]
 
                         providers[providerName] = if (found == null) {
-                            mutableListOf(annotatedClass)
+                            mutableListOf(resolver.getBinaryName(annotatedClass))
                         } else {
-                            found.add(annotatedClass)
+                            found.add(resolver.getBinaryName(annotatedClass))
                             found
                         }
                     }
                 }
             }
         }
-        for ((provider, classes) in providers) {
-            codeGenerator.createNewFileByPath(
-                Dependencies(false, sources = classes.map { it.containingFile!! }.toTypedArray()),
-                "META-INF/services/$provider",
-                extensionName = ""
-            ).bufferedWriter().use {
-                for (impl in classes) {
-                    it.appendLine(impl.qualifiedName!!.asString())
-                }
-            }
-        }
-        return emptyList()
+        return notFound
+    }
+
+    private fun Resolver.getBinaryName(klass: KSDeclaration): String {
+        val jvmName = mapToJvmSignature(klass)!!
+        val binaryName = jvmName.drop(1).replace("/", ".").dropLast(1)
+        return binaryName
     }
 }
