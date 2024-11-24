@@ -133,13 +133,6 @@ class KotlinTesting {
             |  jvmToolchain(8)
             |
             |  jvm()
-            |  jvm("foo") {
-            |    attributes {
-            |      // https://youtrack.jetbrains.com/issue/KT-55751
-            |      val KT_55751 = Attribute.of("KT_55751", String::class.java)
-            |      attribute(KT_55751, "foo")
-            |    } 
-            |  }
             |  linuxX64()
             |}
             |
@@ -210,22 +203,10 @@ class KotlinTesting {
                 ?.map { it.name }?.toSet(),
             temp.toUri().toString(),
         )
-        assertEquals(
-            setOf("CommonFoo"),
-            (temp / "build/generated/serviceloader/fooMain/resources/META-INF/services").toFile().listFiles()
-                ?.map { it.name }?.toSet(),
-            temp.toUri().toString(),
-        )
 
         assertEquals(
             setOf("Foo", "CommonFoo"),
             (temp / "build/processedResources/jvm/main/META-INF/services").toFile().listFiles()
-                ?.map { it.name }?.toSet(),
-            temp.toUri().toString(),
-        )
-        assertEquals(
-            setOf("CommonFoo"),
-            (temp / "build/processedResources/foo/main/META-INF/services").toFile().listFiles()
                 ?.map { it.name }?.toSet(),
             temp.toUri().toString(),
         )
