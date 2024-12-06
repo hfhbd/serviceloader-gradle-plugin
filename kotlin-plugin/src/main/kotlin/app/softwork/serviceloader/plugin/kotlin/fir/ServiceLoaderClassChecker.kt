@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.fir.declarations.utils.*
 import org.jetbrains.kotlin.fir.resolve.*
 import org.jetbrains.kotlin.fir.types.*
 
-internal data object ServiceLoaderClassChecker : FirRegularClassChecker(MppCheckerKind.Platform) {
+internal data object ServiceLoaderClassChecker : FirRegularClassChecker(MppCheckerKind.Common) {
     override fun check(
         declaration: FirRegularClass,
         context: CheckerContext,
