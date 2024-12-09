@@ -5,27 +5,36 @@ plugins {
 
 kotlin {
     jvmToolchain(8)
+
     explicitApi()
     compilerOptions {
         allWarningsAsErrors.set(true)
         freeCompilerArgs.add("-Xexpect-actual-classes")
+        extraWarnings.set(true)
     }
 
     jvm()
 
     js {
-        browser()
+        nodejs()
+    }
+
+    wasmJs {
+        nodejs()
+    }
+    wasmWasi {
         nodejs()
     }
 
     // tier 1
-    linuxX64()
     macosX64()
     macosArm64()
     iosSimulatorArm64()
     iosX64()
+    iosArm64()
 
     // tier 2
+    linuxX64()
     linuxArm64()
     watchosSimulatorArm64()
     watchosX64()
@@ -34,7 +43,6 @@ kotlin {
     tvosSimulatorArm64()
     tvosX64()
     tvosArm64()
-    iosArm64()
 
     // tier 3
     androidNativeArm32()
