@@ -23,7 +23,7 @@ public class ServiceLoaderPlugin : KotlinCompilerPluginSupportPlugin {
             val kotlin = target.extensions.getByType(KotlinJvmProjectExtension::class.java)
             kotlin.sourceSets.configureEach {
                 dependencies {
-                    implementation(runtimeDependency())
+                    compileOnly(runtimeDependency())
                 }
             }
         }
