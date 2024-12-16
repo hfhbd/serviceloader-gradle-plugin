@@ -14,4 +14,4 @@ kotlinCompilerTester-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref =
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-mavencentral = { id = "io.github.hfhbd.mavencentral", version = "0.0.14" }
+mavencentral = { id = "io.github.hfhbd.mavencentral", version = "0.0.15" }
